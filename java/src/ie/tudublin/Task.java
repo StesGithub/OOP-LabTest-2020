@@ -2,6 +2,10 @@ package ie.tudublin;
 
 import processing.data.TableRow;
 
+/*
+     * This task class represents a task in the gantt chart
+     * This creates an object with three fields called name start and end
+     */
 public class Task
 {
     private String name;
@@ -40,13 +44,13 @@ public class Task
     }
 
 
-
+    //tableRow object is from the processing library
     public Task(TableRow tr)
     {
         this(tr.getString("Task"), tr.getInt("Start"), tr.getInt("End"));
     }
 
-    @Override
+    @Override //This changes the toString method to make it do what we need it to
     public String toString() {
         return "Task [end=" + end + ", name=" + name + ", start=" + start + "]";
     }

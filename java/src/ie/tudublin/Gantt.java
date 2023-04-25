@@ -6,8 +6,16 @@ import processing.data.*;
 
 public class Gantt extends PApplet
 {	
+	/*
+	 * Arraylist stores a list of task objects, 
+	 * Task class represents a task in the gant chart and is created by loading in data 
+	 * from the tasks.csv
+	 * THIS ARRAY LIST HOLDS OBJECTS
+	 */
 	ArrayList<Task> tasks = new ArrayList<Task>();
 	
+
+	//settings is automatically called by processing !!!
 	public void settings()
 	{
 		size(800, 600);
@@ -18,13 +26,18 @@ public class Gantt extends PApplet
 	}
 
 	public void loadTasks()
-	{
+	{	//loadtable is built in functionality from processing
+		/*
+		 * iterates through each row of the table and creates a task object for each row
+		 * using the Task constructor(in Task.java)
+		 * 
+		 */
 		Table table = loadTable("tasks.csv", "header");
-
+		//table row is also from the processing library
 		for(TableRow row:table.rows())
 		{
 			Task task = new Task(row);
-			tasks.add(task);
+			tasks.add(task); //adds object to task arrayList
 		}
 	}
 
@@ -53,7 +66,9 @@ public class Gantt extends PApplet
 
 			float x1 = map(tasks.get(i).getStart(), 1, maxMonths, namesPart, width - border);
 			float x2 = map(tasks.get(i).getEnd(), 1, maxMonths, namesPart, width - border);
-			
+			/*
+			 * This for loop constantly checks if our mouse is inside the boundaries of our objects
+			 */
 			if (mouseX >= x1 && mouseX <= x1 + 20 && mouseY >= y1 && mouseY <= y2)
 			{
 				whichTask = i;
@@ -101,18 +116,27 @@ public class Gantt extends PApplet
 
 	void displayTasks()
 	{
-		
+		/*
+		 * This just sets size and alignment for the names of the tasks
+		 */
 		textSize(14);
 		textAlign(LEFT,CENTER);
 		
-		
+		/*
+		 * This just assigns the lines 
+		 * border is a value set to 40 that can be used as a constant 
+		 * line draws the vertical line between two sets of coords
+		 * fill 
+		 */
 		textAlign(CENTER, CENTER);
 		stroke(128);
 		for(int i = 1 ; i <= maxMonths ; i ++)
 		{
 			float x = map(i, 1, maxMonths, namesPart, width - border);
 			line(x, border, x, height - border);
+			//fill tells the draw what colour to make everything
 			fill(255);
+			//this literally just writes the numbers from 1-30 using i and plots them ontop of the lines.
 			text(i, x, border * 0.5f);
 		}
 
@@ -125,6 +149,7 @@ public class Gantt extends PApplet
 
 			// Print the task
 			noStroke();
+			//this is really clever cuz it fills the rectangles but depending on where it is on the drawing itll change colour.
 			fill(map(i, 0, tasks.size(), 0, 255), 255, 255);
 			float x1 = map(tasks.get(i).getStart(), 1, maxMonths, namesPart, width - border);
 			float x2 = map(tasks.get(i).getEnd(), 1, maxMonths, namesPart, width - border);
